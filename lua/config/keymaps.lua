@@ -2,6 +2,7 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 local wk = require("which-key")
+local map = LazyVim.safe_keymap_set
 
 wk.add({
   { "<leader>m", group = "+Visual Multi" }, -- group
@@ -23,3 +24,7 @@ wk.add({
     mode = "n",
   },
 })
+
+-- override keymaps
+map("n", "<A-Down>", "<cmd>execute 'move .+' . v:count1<cr>==", { desc = "+Move Down" })
+map("n", "<A-Up>", "<cmd>execute 'move .-' . (v:count1 + 1)<cr>==", { desc = "+Move Up" })
