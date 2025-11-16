@@ -31,3 +31,5 @@ map("x", "<A-Down>", ":MoveBlock 1<CR>", opts)
 map("x", "<A-Up>", ":MoveBlock -1<CR>", opts)
 map("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
 map("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)
+
+map({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
