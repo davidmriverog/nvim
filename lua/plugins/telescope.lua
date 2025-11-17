@@ -7,7 +7,8 @@ return {
     cmd = "Telescope",
     keys = {
         -- Búsqueda de archivos y contenido
-        { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Buscar archivos en el proyecto" },
+        --{ "<leader><space>", "<cmd>Telescope find_files<cr>", desc = "Buscar archivos en el proyecto" },
+        -- { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Buscar archivos en el proyecto" },
         { "<leader>fr", "<cmd>Telescope oldfiles<cr>",   desc = "Buscar archivos recientes" },
         {
             "<leader>fg",

@@ -9,6 +9,7 @@ return {
         direction = 'horizontal',       -- Dirección de la terminal
         start_in_insert = true,        -- Comenzar en modo insertar
         close_on_exit = true,          -- Cerrar cuando el proceso termine
+        shell = "pwsh",
       })
 
       -- Keymap para salir del modo terminal (Esc)

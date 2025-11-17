@@ -110,6 +110,7 @@ return {
                 "intelephense",
                 "pyright",
                 "eslint",
+                "php",
                 "bashls",       --Bash 
             },
             handlers = {

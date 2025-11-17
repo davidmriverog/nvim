@@ -19,7 +19,7 @@ vim.opt.rtp:prepend(lazypath)
 -- loading lazy.nvim so that mappings are correct.
 -- This is also a good place to setup other settings (vim.opt)
 
--- ============================================================================
+-- ============================================================================      
 -- CONFIGURACIÓN DE TECLAS LÍDER (DEBE IR ANTES DE LAZY.NVIM)
 -- ============================================================================
 vim.g.mapleader = ' '        -- Usa Espacio como líder principal
@@ -27,7 +27,7 @@ vim.g.maplocalleader = '\\'  -- Líder local para buffers específicos
 
 -- Setup lazy.nvim
 require("lazy").setup({
-    spec = {
+    spec = {  
         -- import your plugins
         { import = "plugins" },
     },
