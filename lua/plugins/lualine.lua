@@ -5,7 +5,7 @@ return {
         event = { "BufReadPost", "BufNewFile" },
         dependencies = { "nvim-tree/nvim-web-devicons" },
         opts = {
-            theme = 'tokyonight',
+            theme = 'dracula',
             -- Configuración comentada para personalización futura
             -- sections = {
             --     lualine_a = { 'mode' },

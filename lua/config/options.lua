@@ -28,12 +28,12 @@ vim.opt.termguicolors = true   -- Habilita colores de 24 bits en terminal
 --vim.opt.tabstop = 4    -- should generally be the same as shiftwidth
 
 -- set tabstop and shiftwidth to 4
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
 -- use spaces instead of tabs
 vim.opt.expandtab = true
 -- enable smart indentation
-vim.opt.smartindent = true
+-- vim.opt.smartindent = true
 
 
 -- ============================================================================
@@ -70,9 +70,9 @@ vim.opt.timeoutlen = 300      -- Tiempo de espera para secuencias de teclas (ms)
 
 vim.opt.ruler = false -- Disable the default ruler
 
-vim.g.snacks_animate = true
+-- vim.g.snacks_animate = true
 
-vim.opt.autowriteall = true
+-- vim.opt.autowriteall = true
 
-vim.g.autoformat = true
+-- vim.g.autoformat = true
 vim.opt.linebreak = true -- Wrap lines at convenient points

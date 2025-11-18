@@ -1,9 +1,6 @@
 return {
-    {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-    opts = {},
+    { 
+        "Mofiqul/dracula.nvim",
     },
 
     -- Iconos

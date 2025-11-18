@@ -27,6 +27,7 @@ wk.add({
   { "<leader>u", group = "+utils" },
   { "<leader>s", group = "+search" },
   { "<leader>s", group = "+grep" },
+  { "<leader>b", group = "+buffers" },
 })
 
 -- override keymaps

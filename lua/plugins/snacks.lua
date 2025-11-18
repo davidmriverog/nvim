@@ -1,16 +1,13 @@
 return {
   "folke/snacks.nvim",
-  -- priority = 1000,
+  priority = 1000,
   lazy = false,
   ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
     explorer = { 
-      files = {
-        hidden = true,
-        ignored = true,
-      },
+      enabled = true,
     },
     indent = { enabled = true },
     input = { enabled = true },
@@ -18,16 +15,8 @@ return {
       enabled = true,
       timeout = 3000,
     },
-    -- picker = { 
-    --   enabled = true,
-    -- },
     picker = {
-        sources = {
-          files = {
-            hidden = true,  -- Show hidden files by default
-            ignored = true, -- Show git-ignored files by default
-          },
-        },
+      enabled = true,
     },
     quickfile = { enabled = true },
     scope = { enabled = true },
