@@ -4,8 +4,8 @@
 -- NOTA: Las teclas líder se configuran en config/lazy.lua antes de cargar plugins
 
 -- Deshabilitar netrw (usamos Oil.nvim)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+--vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
 
 local wk = require("which-key")
 
@@ -23,7 +23,7 @@ wk.add({
   },
   { "<leader>f", group = "+find" },
   { "<leader>g", group = "+git" },
-  { "g", group = "+goto" },
+  { "g",         group = "+goto" },
   { "<leader>u", group = "+utils" },
   { "<leader>s", group = "+search" },
   { "<leader>s", group = "+grep" },
@@ -49,31 +49,31 @@ vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save Fil
 
 -- Salir de Neovim con validación inteligente
 vim.keymap.set("n", "<leader>q", function()
-    local function show_error()
-        vim.notify("⚠️ No se puede salir. Hay cambios sin guardar en los buffers:\n" ..
-            "• Usa ':wa' para guardar todo y luego ':qa'\n" ..
-            "• Usa ':qa!' para descartar todos los cambios",
-            vim.log.levels.ERROR, {
-                title = "Acción requerida",
-                timeout = 5000,
-                icon = "",
-                on_open = function(win)
-                    local buf = vim.api.nvim_win_get_buf(win)
-                    vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
-                end,
-            })
-    end
+  local function show_error()
+    vim.notify("⚠️ No se puede salir. Hay cambios sin guardar en los buffers:\n" ..
+      "• Usa ':wa' para guardar todo y luego ':qa'\n" ..
+      "• Usa ':qa!' para descartar todos los cambios",
+      vim.log.levels.ERROR, {
+        title = "Acción requerida",
+        timeout = 5000,
+        icon = "",
+        on_open = function(win)
+          local buf = vim.api.nvim_win_get_buf(win)
+          vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
+        end,
+      })
+  end
 
-    -- Intenta salir silenciosamente para validar
-    local success, err = pcall(vim.cmd, "qa")
+  -- Intenta salir silenciosamente para validar
+  local success, err = pcall(vim.cmd, "qa")
 
-    if not success then
-        -- Analiza el mensaje de error para determinar la causa
-        if string.find(err, "E37") then -- Código de error para buffers no guardados
-            show_error()
-        else
-            -- Para otros tipos de errores
-            vim.notify("❌ Error al intentar salir: " .. err, vim.log.levels.ERROR)
-        end
+  if not success then
+    -- Analiza el mensaje de error para determinar la causa
+    if string.find(err, "E37") then -- Código de error para buffers no guardados
+      show_error()
+    else
+      -- Para otros tipos de errores
+      vim.notify("❌ Error al intentar salir: " .. err, vim.log.levels.ERROR)
     end
+  end
 end, opts, { desc = "Salir de nvim" })
