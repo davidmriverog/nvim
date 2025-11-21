@@ -45,7 +45,7 @@ vim.keymap.set("x", "<A-Up>", ":MoveBlock -1<CR>", opts)
 vim.keymap.set("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
 vim.keymap.set("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)
 
-vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr>", { desc = "Save File" })
+vim.keymap.set({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save File" })
 
 -- Salir de Neovim con validación inteligente
 vim.keymap.set("n", "<leader>q", function()
