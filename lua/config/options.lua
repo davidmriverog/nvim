@@ -77,4 +77,3 @@ vim.opt.ruler = false    -- Disable the default ruler
 -- vim.g.autoformat = true
 vim.opt.linebreak = true -- Wrap lines at convenient points
 vim.opt.clipboard = "unnamedplus"
-
