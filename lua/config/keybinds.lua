@@ -22,12 +22,14 @@ wk.add({
     mode = "n",
   },
   { "<leader>f", group = "+find" },
+  { "h",         group = "+harpoon" },
   { "<leader>g", group = "+git" },
   { "g",         group = "+goto" },
   { "<leader>u", group = "+utils" },
   { "<leader>s", group = "+search" },
   { "<leader>s", group = "+grep" },
   { "<leader>b", group = "+buffers" },
+  { "<leader>r", group = "+rip sub" },
 })
 
 -- override keymaps
