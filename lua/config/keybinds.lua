@@ -21,6 +21,7 @@ wk.add({
     desc = "NestJS Run App",
     mode = "n",
   },
+  { "<leader>c", group = "+code" },
   { "<leader>f", group = "+find" },
   { "h",         group = "+harpoon" },
   { "<leader>g", group = "+git" },
