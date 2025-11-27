@@ -87,8 +87,13 @@ return {
     { "<leader>:",       function() Snacks.picker.command_history() end,                                        desc = "Command History" },
     { "<leader>n",       function() Snacks.picker.notifications() end,                                          desc = "Notification History" },
     { "<leader>e",       function() Snacks.explorer() end,                                                      desc = "File Explorer" },
-    -- find
+    -- buffers
+    { "<leader>bd",      function() Snacks.bufdelete() end,                                                     desc = "Buffer delete",              mode = "n" },
+    { "<leader>ba",      function() Snacks.bufdelete.all() end,                                                 desc = "Buffer delete all",          mode = "n" },
+    { "<leader>bo",      function() Snacks.bufdelete.other() end,                                               desc = "Buffer delete other",        mode = "n" },
+    { "<leader>bz",      function() Snacks.zen() end,                                                           desc = "Toggle Zen Mode",            mode = "n" },
     { "<leader>bb",      function() Snacks.picker.buffers() end,                                                desc = "Buffers" },
+    -- find
     { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,                desc = "Find Config File" },
     { "<leader>ff",      function() Snacks.picker.files() end,                                                  desc = "Find Files" },
     { "<leader>fg",      function() Snacks.picker.git_files() end,                                              desc = "Find Git Files" },

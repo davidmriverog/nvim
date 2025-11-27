@@ -1,258 +1,139 @@
 return {
-  'neovim/nvim-lspconfig',
+  "VonHeikemen/lsp-zero.nvim",
+  event = "VeryLazy",
   dependencies = {
-    'williamboman/mason.nvim',
-    'williamboman/mason-lspconfig.nvim',
-    -- Autocompletado
-    'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'saadparwaiz1/cmp_luasnip',
-    'hrsh7th/cmp-nvim-lsp',
-    'hrsh7th/cmp-nvim-lua',
-    -- snippets
-    'L3MON4D3/LuaSnip',
-    'rafamadriz/friendly-snippets',
+    -- LSP Support
+    { "neovim/nvim-lspconfig" }, -- Required
+    {                            -- Optional
+      "williamboman/mason.nvim",
+      build = function()
+        pcall(vim.cmd, "MasonUpdate")
+      end,
+    },
+    { "williamboman/mason-lspconfig.nvim" }, -- Optional
+
+    -- Autocompletion
+    { "hrsh7th/nvim-cmp" },     -- Required
+    { "hrsh7th/cmp-nvim-lsp" }, -- Required
+    { "L3MON4D3/LuaSnip" },     -- Required
+    { "rafamadriz/friendly-snippets" },
+    { "hrsh7th/cmp-buffer" },
+    { "hrsh7th/cmp-path" },
+    { "hrsh7th/cmp-cmdline" },
+    { "saadparwaiz1/cmp_luasnip" },
   },
   config = function()
-    -- Bordes redondeados para las ventanas flotantes de documentación y firmas
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(
-      vim.lsp.handlers.hover,
-      { border = 'rounded' }
-    )
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(
-      vim.lsp.handlers.signature_help,
-      { border = 'rounded' }
-    )
+    local lsp = require("lsp-zero")
 
-    -- Configuración de la interfaz de errores y advertencias
-    vim.diagnostic.config({
-      virtual_text = {
-        prefix = function(diagnostic)
-          local icons = {
-            [vim.diagnostic.severity.ERROR] = '󱚡',
-            [vim.diagnostic.severity.WARN] = '󱚝',
-            [vim.diagnostic.severity.HINT] = '󰚩',
-            [vim.diagnostic.severity.INFO] = '󱚟',
-          }
-          return icons[diagnostic.severity] or '󱚣'
-        end,
-      },
-      severity_sort = true,
-      float = {
-        style = 'minimal',
-        source = 'always',
-        border = 'rounded',
-        header = '',
-        prefix = '',
-      },
-      signs = {
-        text = {
-          [vim.diagnostic.severity.ERROR] = '',
-          [vim.diagnostic.severity.WARN] = '',
-          [vim.diagnostic.severity.HINT] = '󰌶',
-          [vim.diagnostic.severity.INFO] = '',
-        },
-      },
-    })
+    lsp.on_attach(function(client, bufnr)
+      local opts = { buffer = bufnr, remap = false }
 
-    -- Agregar capacidades de cmp_nvim_lsp antes de configurar cualquier LSP
-    local lspconfig_defaults = require('lspconfig').util.default_config
-    lspconfig_defaults.capabilities = vim.tbl_deep_extend(
-      'force',
-      lspconfig_defaults.capabilities,
-      require('cmp_nvim_lsp').default_capabilities()
-    )
+      vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Goto Reference" }))
+      vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Goto Definition" }))
+      vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Hover" }))
+      vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Workspace Symbol" }))
+      vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.setloclist() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Show Diagnostics" }))
+      vim.keymap.set("n", "[d", function() vim.diagnostic.goto_next() end,
+        vim.tbl_deep_extend("force", opts, { desc = "Next Diagnostic" }))
+      vim.keymap.set("n", "]d", function() vim.diagnostic.goto_prev() end,
+        vim.tbl_deep_extend("force", opts, { desc = "Previous Diagnostic" }))
+      vim.keymap.set("n", "<leader>vca", function() vim.lsp.buf.code_action() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Code Action" }))
+      vim.keymap.set("n", "<leader>vrr", function() vim.lsp.buf.references() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP References" }))
+      vim.keymap.set("n", "<leader>vrn", function() vim.lsp.buf.rename() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Rename" }))
+      vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end,
+        vim.tbl_deep_extend("force", opts, { desc = "LSP Signature Help" }))
+    end)
 
-    -- Configuración de autocmd cuando un LSP se adjunta a un buffer
-    vim.api.nvim_create_autocmd('LspAttach', {
-      callback = function(event)
-        local opts = { buffer = event.buf }
-
-        -- Keymaps para LSP
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition,
-          { desc = "Ir a la definición del símbolo", buffer = event.buf })
-        vim.keymap.set("n", "K", function()
-          vim.lsp.buf.hover({ border = "single" })
-        end, { desc = "Mostrar documentación flotante", buffer = event.buf })
-        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Renombrar símbolo", buffer = event.buf })
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action,
-          { desc = "Mostrar acciones del código", buffer = event.buf })
-        -- vim.keymap.set("n", "<leader>f", function()
-        --     vim.lsp.buf.format { async = true }
-        -- end, { desc = "Formatear archivo manualmente", buffer = event.buf })
-
-        -- Otros keymaps útiles
-        vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>',
-          { desc = "Ir a declaración del símbolo", buffer = event.buf })
-        vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>',
-          { desc = "Ir a implementación del símbolo", buffer = event.buf })
-        vim.keymap.set('n', 'go', '<cmd>lua vim.lsp.buf.type_definition()<cr>',
-          { desc = "Ir a definición de tipo", buffer = event.buf })
-        vim.keymap.set('n', 'gr', '<cmd>lua vim.lsp.buf.references()<cr>',
-          { desc = "Buscar referencias del símbolo", buffer = event.buf })
-        vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>',
-          { desc = "Ayuda con la firma de función", buffer = event.buf })
-        vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>',
-          { desc = "Mostrar errores y advertencias flotantes", buffer = event.buf })
-      end,
-    })
-
-    -- Configuración de Mason y mason-lspconfig
-    require('mason').setup({})
-    require('mason-lspconfig').setup({
+    require("mason").setup({})
+    require("mason-lspconfig").setup({
       ensure_installed = {
-        "lua_ls",
-        "ts_ls",
-        "html",
-        "cssls",
-        "jsonls",
-        "intelephense",
-        "pyright",
         "eslint",
-        "php",
-        "bashls", --Bash
+        "rust_analyzer",
+        "kotlin_language_server",
+        "jdtls",
+        "lua_ls",
+        "jsonls",
+        "html",
+        "elixirls",
+        "tailwindcss",
+        "tflint",
+        "pylsp",
+        "dockerls",
+        "bashls",
+        "marksman",
+        "solargraph",
+        "cucumber_language_server",
+        "gopls",
+        "astro",
       },
       handlers = {
-        -- Manejador por defecto para todos los servidores sin configuración específica
-        function(server_name)
-          require('lspconfig')[server_name].setup({})
-        end,
-
-        -- Configuración personalizada para lua_ls
+        lsp.default_setup,
         lua_ls = function()
-          require('lspconfig').lua_ls.setup({
-            settings = {
-              Lua = {
-                runtime = {
-                  version = 'LuaJIT',
-                },
-                diagnostics = {
-                  globals = { 'vim' },
-                },
-                workspace = {
-                  library = { vim.env.VIMRUNTIME },
-                },
-              },
-            },
-          })
+          local lua_opts = lsp.nvim_lua_ls()
+          require("lspconfig").lua_ls.setup(lua_opts)
         end,
-        -- Configuración para TypeScript con soporte para Vue
-        ts_ls = function()
-          local mason_registry = require("mason-registry")
-          local vue_language_server = mason_registry.get_package("vue-language-server"):get_install_path()
-              .. "/node_modules/@vue/language-server"
-          require('lspconfig').ts_ls.setup({
-            init_options = {
-              plugins = {
-                {
-                  name = "@vue/typescript-plugin",
-                  location = vue_language_server,
-                  languages = { "vue" },
-                }
-              }
-            },
-            filetypes = { "typescript", "javascript", "vue" }
-          })
-        end,
-        -- Configuración para Volar (Vue Language Server)
-        -- volar = function()
-        --     require('lspconfig').volar.setup({
-        --         filetypes = { "vue" },
-        --         init_options = {
-        --             vue = {
-        --                 hybridMode = false,
-        --             },
-        --         },
-        --     })
-        -- end,
       },
     })
 
-    local cmp = require('cmp')
+    local cmp_action = require("lsp-zero").cmp_action()
+    local cmp = require("cmp")
+    local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
-    -- Cargar fragmentos de código de VSCode
-    require('luasnip.loaders.from_vscode').lazy_load()
+    require("luasnip.loaders.from_vscode").lazy_load()
 
-    -- Opciones para autocompletado
-    vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-
-    cmp.setup({
-      preselect = 'item',
-      completion = {
-        completeopt = 'menu,menuone,noinsert'
-      },
-      window = {
-        documentation = cmp.config.window.bordered(),
-      },
+    -- `/` cmdline setup.
+    cmp.setup.cmdline("/", {
+      mapping = cmp.mapping.preset.cmdline(),
       sources = {
-        { name = 'path' },
-        { name = 'nvim_lsp' },
-        { name = 'buffer',  keyword_length = 3 },
-        { name = 'luasnip', keyword_length = 2 },
+        { name = "buffer" },
       },
-      snippet = {
-        expand = function(args)
-          require('luasnip').lsp_expand(args.body)
-        end,
-      },
-      formatting = {
-        fields = { 'abbr', 'menu', 'kind' },
-        format = function(entry, item)
-          local n = entry.source.name
-          if n == 'nvim_lsp' then
-            item.menu = '[LSP]'
-          else
-            item.menu = string.format('[%s]', n)
-          end
-          return item
-        end,
-      },
-      mapping = cmp.mapping.preset.insert({
-        ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Confirmar selección
+    })
 
-        ['<C-f>'] = cmp.mapping.scroll_docs(5),             -- Desplazar documentación hacia abajo
-        ['<C-u>'] = cmp.mapping.scroll_docs(-5),            -- Desplazar documentación hacia arriba
-
-        ['<C-e>'] = cmp.mapping(function(fallback)          -- Mostrar u ocultar el menú de autocompletado
-          if cmp.visible() then
-            cmp.abort()
-          else
-            cmp.complete()
-          end
-        end),
-
-        ['<Tab>'] = cmp.mapping(function(fallback) -- Siguiente sugerencia o activar completado
-          local col = vim.fn.col('.') - 1
-          if cmp.visible() then
-            cmp.select_next_item({ behavior = 'select' })
-          elseif col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
-            fallback()
-          else
-            cmp.complete()
-          end
-        end, { 'i', 's' }),
-
-        ['<S-Tab>'] = cmp.mapping.select_prev_item({ behavior = 'select' }), -- Sugerencia anterior
-
-        ['<C-d>'] = cmp.mapping(function(fallback)                           -- Siguiente marcador de snippet
-          local luasnip = require('luasnip')
-          if luasnip.jumpable(1) then
-            luasnip.jump(1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
-
-        ['<C-b>'] = cmp.mapping(function(fallback) -- Marcador anterior de snippet
-          local luasnip = require('luasnip')
-          if luasnip.jumpable(-1) then
-            luasnip.jump(-1)
-          else
-            fallback()
-          end
-        end, { 'i', 's' }),
+    -- `:` cmdline setup.
+    cmp.setup.cmdline(":", {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = "path" },
+      }, {
+        {
+          name = "cmdline",
+          option = {
+            ignore_cmds = { "Man", "!" },
+          },
+        },
       }),
     })
-  end
+
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          require("luasnip").lsp_expand(args.body)
+        end,
+      },
+      sources = {
+        { name = "nvim_lsp" },
+        { name = "luasnip", keyword_length = 2 },
+        { name = "buffer",  keyword_length = 3 },
+        { name = "path" },
+      },
+      mapping = cmp.mapping.preset.insert({
+        ["<C-p>"] = cmp.mapping.select_prev_item(cmp_select),
+        ["<C-n>"] = cmp.mapping.select_next_item(cmp_select),
+        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<C-f>"] = cmp_action.luasnip_jump_forward(),
+        ["<C-b>"] = cmp_action.luasnip_jump_backward(),
+        ["<Tab>"] = cmp_action.luasnip_supertab(),
+        ["<S-Tab>"] = cmp_action.luasnip_shift_supertab(),
+      }),
+    })
+  end,
 }
