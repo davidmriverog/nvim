@@ -7,73 +7,42 @@
 -- ============================================================================
 vim.opt.number = true          -- Muestra números de línea absolutos
 vim.opt.relativenumber = false -- Muestra números relativos (útil para saltos)
-vim.opt.cursorline = true      -- Resalta la línea donde está el cursor
-vim.opt.splitright = true      -- Nuevas ventanas verticales se abren a la derecha
-vim.opt.wrap = false           -- Desactiva el ajuste de línea automático
-vim.opt.signcolumn = "yes"     -- Siempre muestra la columna de signos (diagnósticos, git, etc.)
-vim.opt.termguicolors = true   -- Habilita colores de 24 bits en terminal
 
--- ============================================================================
--- INDENTACIÓN Y TABULACIÓN
--- ============================================================================
--- vim.opt.shiftwidth = 2         -- Número de espacios para cada nivel de indentación
--- vim.opt.tabstop = 2           -- Número de espacios que representa un tab
--- vim.shiftround = true -- Round indent
---vim.opt.softtabstop = 2       -- Número de espacios para tabs en modo inserción
--- vim.opt.expandtab = true      -- Convierte tabs a espacios automáticamente
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
--- vim.opt.autoindent = true
--- vim.opt.expandtab = true
---vim.opt.shiftwidth = 4 -- or 2, depending on preference
---vim.opt.tabstop = 4    -- should generally be the same as shiftwidth
+vim.opt.guicursor = ""
 
--- set tabstop and shiftwidth to 4
+vim.opt.nu = true
+
 vim.opt.tabstop = 2
+vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
--- use spaces instead of tabs
 vim.opt.expandtab = true
--- enable smart indentation
--- vim.opt.smartindent = true
 
+vim.opt.smartindent = true
+vim.opt.smartcase = true
 
--- ============================================================================
--- COMPORTAMIENTO DEL CURSOR Y MOUSE
--- ============================================================================
--- vim.opt.mouse = " "            -- Mouse DESHABILITADO (sin soporte para interacción)
--- vim.opt.mousescroll = "ver:0,hor:0"  -- Scroll con mouse deshabilitado
+vim.opt.wrap = false
 
--- ============================================================================
--- GESTIÓN DE ARCHIVOS Y RESPALDOS
--- ============================================================================
-vim.opt.swapfile = false -- Desactiva archivos .swp (intercambio temporal)
-vim.opt.backup = false   -- No crea archivos de respaldo automáticamente
+vim.opt.swapfile = false
+vim.opt.backup = false
+-- vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
+vim.opt.undofile = true
 
--- ============================================================================
--- CONFIGURACIONES ADICIONALES DE BÚSQUEDA Y COMPORTAMIENTO
--- ============================================================================
-vim.opt.ignorecase = true -- Búsquedas insensibles a mayúsculas/minúsculas
-vim.opt.smartcase = true  -- Búsquedas sensibles si contienen mayúsculas
-vim.opt.hlsearch = true   -- Resalta todas las coincidencias de búsqueda
-vim.opt.incsearch = true  -- Búsqueda incremental mientras escribes
+vim.opt.hlsearch = false
+vim.opt.incsearch = true
 
--- ============================================================================
--- CONFIGURACIÓN DE VENTANAS Y SPLITS
--- ============================================================================
-vim.opt.splitbelow = true -- Nuevas ventanas horizontales se abren abajo
-vim.opt.splitright = true -- Nuevas ventanas verticales se abren a la derecha
+vim.opt.termguicolors = true
 
--- ============================================================================
--- CONFIGURACIÓN DE RENDIMIENTO
--- ============================================================================
-vim.opt.updatetime = 250 -- Tiempo de espera para escribir al archivo swap (ms)
-vim.opt.timeoutlen = 300 -- Tiempo de espera para secuencias de teclas (ms)
+vim.opt.scrolloff = 20
+vim.opt.signcolumn = "yes"
+vim.opt.isfname:append("@-@")
 
-vim.opt.ruler = false    -- Disable the default ruler
+vim.opt.updatetime = 50
+vim.opt.conceallevel = 2
 
--- vim.g.snacks_animate = true
+vim.opt.termguicolors = true
 
--- vim.opt.autowriteall = true
-
--- vim.g.autoformat = true
-vim.opt.linebreak = true -- Wrap lines at convenient points
-vim.opt.clipboard = "unnamedplus"
+vim.o.timeout = true   -- Enable timeout (default)
+vim.o.timeoutlen = 100 -- Wait 300 milliseconds (adjust as needed)

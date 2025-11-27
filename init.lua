@@ -3,4 +3,4 @@ require("config.lazy")
 require("config.keybinds")
 
 -- vim.cmd [[colorscheme dracula]]
-vim.cmd [[colorscheme tokyonight-moon]]
+vim.cmd("colorscheme tokyonight-moon")
