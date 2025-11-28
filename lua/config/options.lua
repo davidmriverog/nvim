@@ -46,3 +46,5 @@ vim.opt.termguicolors = true
 
 vim.o.timeout = true   -- Enable timeout (default)
 vim.o.timeoutlen = 100 -- Wait 300 milliseconds (adjust as needed)
+
+vim.opt.clipboard = 'unnamedplus'

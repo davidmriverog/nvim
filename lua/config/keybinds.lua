@@ -23,13 +23,15 @@ wk.add({
   },
   { "<leader>c", group = "+code" },
   { "<leader>f", group = "+find" },
-  { "h",         group = "+harpoon" },
+  { "<leader>h", group = "+harpoon" },
   { "<leader>g", group = "+git" },
+  { "<leader>G", group = "+github" },
   { "g",         group = "+goto" },
   { "<leader>u", group = "+utils" },
   { "<leader>s", group = "+search" },
   { "<leader>s", group = "+grep" },
   { "<leader>b", group = "+buffers" },
+  { "<leader>o", group = "neoclip" },
   { "<leader>r", group = "+rip sub" },
 })
 

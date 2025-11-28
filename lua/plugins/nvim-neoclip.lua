@@ -44,7 +44,7 @@ return {
             paste_behind = "<c-k>",
             replay = "<c-q>", -- replay a macro
             delete = "<c-d>", -- delete an entry
-            edit = "<c-e>", -- edit an entry
+            edit = "<c-e>",   -- edit an entry
             custom = {},
           },
           n = {
@@ -62,6 +62,6 @@ return {
       },
     })
 
-    vim.keymap.set("n", "<leader>o", "<cmd>Telescope neoclip<CR>", { desc = "Telescope Neoclip" })
+    vim.keymap.set("n", "<leader>oo", "<cmd>Telescope neoclip<CR>", { desc = "Telescope Neoclip" })
   end,
 }

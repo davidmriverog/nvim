@@ -112,6 +112,7 @@ return {
     { "<leader>gI",      function() Snacks.picker.gh_issue({ state = "all" }) end,                              desc = "GitHub Issues (all)" },
     { "<leader>gp",      function() Snacks.picker.gh_pr() end,                                                  desc = "GitHub Pull Requests (open)" },
     { "<leader>gP",      function() Snacks.picker.gh_pr({ state = "all" }) end,                                 desc = "GitHub Pull Requests (all)" },
+    { "<leader>gg",      function() Snacks.lazygit() end,                                                       desc = "Lazygit" },
     -- Grep
     { "<leader>sb",      function() Snacks.picker.lines() end,                                                  desc = "Buffer Lines" },
     { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                                           desc = "Grep Open Buffers" },
@@ -160,7 +161,6 @@ return {
     { "<leader>bd",      function() Snacks.bufdelete() end,                                                     desc = "Delete Buffer" },
     { "<leader>cR",      function() Snacks.rename.rename_file() end,                                            desc = "Rename File" },
     { "<leader>gB",      function() Snacks.gitbrowse() end,                                                     desc = "Git Browse",                 mode = { "n", "v" } },
-    { "<leader>gg",      function() Snacks.lazygit() end,                                                       desc = "Lazygit" },
     { "<leader>un",      function() Snacks.notifier.hide() end,                                                 desc = "Dismiss All Notifications" },
     { "<c-/>",           function() Snacks.terminal() end,                                                      desc = "Toggle Terminal" },
     { "<c-_>",           function() Snacks.terminal() end,                                                      desc = "which_key_ignore" },
