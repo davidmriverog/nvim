@@ -1,19 +1,10 @@
--- ============================================================================
--- CONFIGURACIÓN DE OPCIONES DE NEOVIM
--- ============================================================================
-
--- ============================================================================
--- INTERFAZ VISUAL
--- ============================================================================
-vim.opt.number = true          -- Muestra números de línea absolutos
-vim.opt.relativenumber = false -- Muestra números relativos (útil para saltos)
+vim.opt.number = true          
+vim.opt.relativenumber = false 
 
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 vim.opt.guicursor = ""
-
-vim.opt.nu = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -48,3 +39,4 @@ vim.o.timeout = true   -- Enable timeout (default)
 vim.o.timeoutlen = 100 -- Wait 300 milliseconds (adjust as needed)
 
 vim.opt.clipboard = 'unnamedplus'
+

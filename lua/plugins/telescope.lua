@@ -1,6 +1,3 @@
--- ============================================================================
--- TELESCOPE - BUSCADOR DIFUSO Y NAVEGADOR DE ARCHIVOS
--- ============================================================================
 return {
   { "nvim-telescope/telescope-live-grep-args.nvim", event = "VeryLazy" },
   {

@@ -11,6 +11,7 @@ return {
       -- vim.keymap.set("n", "<leader>Jr", springboot_nvim.boot_run, { desc = "Spring Boot Run Project" })
       vim.keymap.set("n", "<leader>Jr", function()
          vim.cmd(':TermExec cmd="mvn spring-boot:run"')
+         -- Snacks.terminal.open(nil, { "gitui", "-t", "tokyonight_moon.ron" })
       end, { desc = "Spring Boot Run Project" })
       vim.keymap.set("n", "<leader>Jc", springboot_nvim.generate_class, { desc = "Java Create Class" })
       vim.keymap.set("n", "<leader>Ji", springboot_nvim.generate_interface, { desc = "Java Create Interface" })

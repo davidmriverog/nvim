@@ -1,1 +1,3 @@
-lazy-lock.json
+plugin/*
+.aider*
+.lazy-lock.json
