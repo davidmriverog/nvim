@@ -1,3 +1,28 @@
+local wk = require("which-key")
+
+-- groups custom keymaps
+wk.add({
+  { "<leader>J", group = "+Java" },
+  { "<leader>T", group = "+Tools" },
+  { "<leader>Tn", group = "+NodeJs" },
+  {
+    "<leader>Tnn",
+    function()
+      vim.cmd(':TermExec cmd="npm run start:dev"')
+    end,
+    desc = "NestJS Run App",
+    mode = "n",
+  },
+  {
+    "<leader>Tnd",
+    function()
+      vim.cmd(':TermExec cmd="npm run start:dev -- --inspect-brk"')
+    end,
+    desc = "NestJS Run Debug App",
+    mode = "n",
+  },
+})
+
 -- Oil
 vim.keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 
