@@ -292,45 +292,6 @@ return {
     },
   },
   {
-    "pwntester/octo.nvim",
-    cmd = "Octo",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-    },
-    config = function()
-      require("octo").setup({
-        enable_builtin = true,
-        use_local_fs = true,
-        picker = "snacks",
-      })
-      vim.cmd([[hi OctoEditable guibg=none]])
-      vim.treesitter.language.register("markdown", "octo")
-    end,
-    keys = {
-      {
-      "<leader>Oa",
-      "<cmd>Octo<cr>",
-      desc = "Octo Actions"
-    },
-    {
-      "<leader>Op",
-      "<CMD>Octo pr list<CR>",
-      desc = "List GitHub PullRequests",
-    },
-    {
-      "<leader>Os",
-      "<CMD>Octo pr search<CR>",
-      desc = "Search Pull Requests",
-    },
-    {
-      "<leader>Oc",
-      "<CMD>Octo pr create<CR>",
-      desc = "Create Pull Requests",
-    },
-    },
-  },
-  {
     "windwp/nvim-ts-autotag",
     dependencies = "nvim-treesitter/nvim-treesitter",
     config = function()

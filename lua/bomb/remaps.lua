@@ -2,6 +2,7 @@ local wk = require("which-key")
 
 -- groups custom keymaps
 wk.add({
+  { "<leader>G", group = "+Github Octo" },
   { "<leader>J", group = "+Java" },
   { "<leader>T", group = "+Tools" },
   { "<leader>Tn", group = "+NodeJs" },
