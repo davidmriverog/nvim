@@ -1,59 +1,30 @@
 return {
   "obsidian-nvim/obsidian.nvim",
-  version = "*",
-  lazy = true,
+  version = "*", -- recommended, use latest release instead of latest commit
   ft = "markdown",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
+  -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+  -- event = {
+  --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+  --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+  --   -- refer to `:h file-pattern` for more examples
+  --   "BufReadPre path/to/my-vault/*.md",
+  --   "BufNewFile path/to/my-vault/*.md",
+  -- },
+  ---@module 'obsidian'
+  ---@type obsidian.config
+  opts = {
+    legacy_commands = false, -- this will be removed in the next major release
+    workspaces = {
+      {
+        name = "personal",
+        path = "~/vaults/personal",
+      },
+      {
+        name = "work",
+        path = "~/vaults/work",
+      },
+    },
+
+    -- see below for full list of options 👇
   },
-  config = function()
-    require("obsidian").setup({
-      workspaces = {
-        {
-          name = "ObsidianVault",
-          path = "/Users/andrew.courter/Documents/ObsidianVault",
-        },
-      },
-      completion = {
-        nvim_cmp = true,
-        min_chars = 2,
-      },
-      new_notes_location = "notes_subdir",
-      note_id_func = function(title)
-        return title
-      end,
-      frontmatter = {
-        func = function(note)
-          local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-
-          if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-            for k, v in pairs(note.metadata) do
-              out[k] = v
-            end
-          end
-
-          return out
-        end,
-      },
-      templates = {
-        subdir = "Templates",
-        date_format = "%Y-%m-%d",
-        time_format = "%H:%M",
-        tags = "",
-        substitutions = {
-          yesterday = function()
-            return os.date("%Y-%m-%d", os.time() - 86400)
-          end,
-          tomorrow = function()
-            return os.date("%Y-%m-%d", os.time() + 86400)
-          end,
-        },
-      },
-
-      ui = {
-        enable = false, -- using render-markdown.nvim instead
-      },
-      legacy_commands = false,
-    })
-  end,
 }
