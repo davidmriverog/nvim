@@ -60,6 +60,7 @@ return {
     ---@type neotree.Config
     opts = {
       -- options go here
+      window = { position = "left", width = "15%" },
       event_handlers = {
         -- save layout before opening neotree
         {
