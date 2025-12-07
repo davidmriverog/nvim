@@ -49,6 +49,8 @@ require("lazy").setup({
     -- Linting plugins
     { import = "lazyvim.plugins.extras.linting.eslint" },
 
+    { import="lazyvim.plugins.extras.dap.core"},
+    
     -- Language support plugins
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
@@ -56,6 +58,9 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.astro" },
     { import = "lazyvim.plugins.extras.lang.nix" },
     { import = "lazyvim.plugins.extras.lang.toml" },
+
+    { import="lazyvim.plugins.extras.lang.php"},
+    { import="lazyvim.plugins.extras.lang.sql"},
 
     -- Coding plugins
     { import = "lazyvim.plugins.extras.coding.mini-surround" },

@@ -203,96 +203,83 @@ return {
   {
     "folke/snacks.nvim",
     config = function(_, opts)
-    require("snacks").setup(opts)
+      require("snacks").setup(opts)
 
-    Snacks.toggle.new({
-      id = "ufo",
-      name = "Enable/Disable ufo",
-      get = function()
-        return require("ufo").inspect()
-      end,
-      set = function(state)
-        if state == nil then
-          require("noice").enable()
-          require("ufo").enable()
-          vim.o.foldenable = true
-          vim.o.foldcolumn = "1"
-        else
-          require("noice").disable()
-          require("ufo").disable()
-          vim.o.foldenable = false
-          vim.o.foldcolumn = "0"
-        end
-      end,
-    })
-  end,
-    init = function()
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "OilActionsPost",
-      callback = function(event)
-        if event.data.actions.type == "move" then
-          Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
-        end
-      end,
-    })
-
-    vim.api.nvim_create_autocmd("User", {
-      pattern = "VeryLazy",
-      callback = function()
-        -- Setup some globals for debugging (lazy-loaded)
-        _G.dd = function(...)
-          Snacks.debug.inspect(...)
-        end
-        _G.bt = function()
-          Snacks.debug.backtrace()
-        end
-
-        -- Override print to use snacks for `:=` command
-        if vim.fn.has("nvim-0.11") == 1 then
-          vim._print = function(_, ...)
-            dd(...)
+      Snacks.toggle.new({
+        id = "ufo",
+        name = "Enable/Disable ufo",
+        get = function()
+          return require("ufo").inspect()
+        end,
+        set = function(state)
+          if state == nil then
+            require("noice").enable()
+            require("ufo").enable()
+            vim.o.foldenable = true
+            vim.o.foldcolumn = "1"
+          else
+            require("noice").disable()
+            require("ufo").disable()
+            vim.o.foldenable = false
+            vim.o.foldcolumn = "0"
           end
-        else
-          vim.print = _G.dd
-        end
+        end,
+      })
+    end,
+    init = function()
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "OilActionsPost",
+        callback = function(event)
+          if event.data.actions.type == "move" then
+            Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
+          end
+        end,
+      })
 
-        -- Create some toggle mappings
-        Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
-        Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
-        Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
-        Snacks.toggle.diagnostics():map("<leader>ud")
-        Snacks.toggle.line_number():map("<leader>ul")
-        Snacks.toggle.option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 }):map(
-          "<leader>uc")
-        Snacks.toggle.treesitter():map("<leader>uT")
-        Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
-        Snacks.toggle.inlay_hints():map("<leader>uh")
-        Snacks.toggle.indent():map("<leader>ug")
-        Snacks.toggle.dim():map("<leader>uD")
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "VeryLazy",
+        callback = function()
+          -- Setup some globals for debugging (lazy-loaded)
+          _G.dd = function(...)
+            Snacks.debug.inspect(...)
+          end
+          _G.bt = function()
+            Snacks.debug.backtrace()
+          end
 
-        -- vim.cmd(":lua Snacks.explorer()");
-      end,
-    })
-  end,
+          -- Override print to use snacks for `:=` command
+          if vim.fn.has("nvim-0.11") == 1 then
+            vim._print = function(_, ...)
+              dd(...)
+            end
+          else
+            vim.print = _G.dd
+          end
+
+          -- Create some toggle mappings
+          Snacks.toggle.option("spell", { name = "Spelling" }):map("<leader>us")
+          Snacks.toggle.option("wrap", { name = "Wrap" }):map("<leader>uw")
+          Snacks.toggle.option("relativenumber", { name = "Relative Number" }):map("<leader>uL")
+          Snacks.toggle.diagnostics():map("<leader>ud")
+          Snacks.toggle.line_number():map("<leader>ul")
+          Snacks.toggle
+            .option("conceallevel", { off = 0, on = vim.o.conceallevel > 0 and vim.o.conceallevel or 2 })
+            :map("<leader>uc")
+          Snacks.toggle.treesitter():map("<leader>uT")
+          Snacks.toggle.option("background", { off = "light", on = "dark", name = "Dark Background" }):map("<leader>ub")
+          Snacks.toggle.inlay_hints():map("<leader>uh")
+          Snacks.toggle.indent():map("<leader>ug")
+          Snacks.toggle.dim():map("<leader>uD")
+
+          -- vim.cmd(":lua Snacks.explorer()");
+        end,
+      })
+    end,
     opts = {
       bigfile = { enabled = true },
       notifier = {},
       image = {},
       picker = { enabled = true },
-      -- picker = {
-      --   enabled=true,
-      --   exclude = {
-      --     ".git",
-      --     "node_modules",
-      --   },
-      --   matcher = {
-      --     fuzzy = true,
-      --     smartcase = true,
-      --     ignorecase = true,
-      --     filename_bonus = true,
-      --   },
-      --   sources = {},
-      -- },
       explorer = { enabled = true, trash = false },
       indent = { enabled = true },
       input = { enabled = true },
@@ -315,28 +302,28 @@ return {
         },
         preset = {
           header = [[
-          ██████╗  ██████╗ ███╗   ███╗██████╗
-          ██╔══██╗██╔═══██╗████╗ ████║██╔══██╗
-          ██████╔╝██║   ██║██╔████╔██║██████╔╝
-          ██╔══██╗██║   ██║██║╚██╔╝██║██╔══██╗
-          ██████╔╝╚██████╔╝██║ ╚═╝ ██║██████╔╝
-          ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═════╝
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⣀⠀⢠⡀⣿⣰⢀⣠⠴⠋⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣙⣳⣿⣿⣿⣿⣅⣀⡀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢠⣄⣤⣄⣠⣶⣿⡭⣙⣷⣿⣿⣿⣯⡉⠉⠁
-        ⠀⠀⠀⠀⢀⣤⡶⠚⣿⣿⢡⣷⡻⣿⡺⡿⣻⣄⠀⣰⠟⢹⡟⣿⠀⠉⠀⠀
-        ⠀⠀⢀⡴⠛⠙⣶⣾⣿⣿⡘⢿⣿⣷⣯⣟⣛⡟⠰⠁⠀⢸⡇⠘⡆⠀⠀⠀
-        ⠀⢠⠏⠀⠀⣰⣿⣿⣿⣿⣿⣶⣍⣛⠻⠿⠟⣼⡆⠀⠀⢸⠃⠀⠀⠀⠀⠀
-        ⠀⣿⣤⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠘⠂⠀⠀⠀⠀⠀
-        ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-]],
+            ██████╗  ██████╗ ███╗   ███╗██████╗
+            ██╔══██╗██╔═══██╗████╗ ████║██╔══██╗
+            ██████╔╝██║   ██║██╔████╔██║██████╔╝
+            ██╔══██╗██║   ██║██║╚██╔╝██║██╔══██╗
+            ██████╔╝╚██████╔╝██║ ╚═╝ ██║██████╔╝
+            ╚═════╝  ╚═════╝ ╚═╝     ╚═╝╚═════╝
+          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀
+          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀
+          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠤⣀⠀⢠⡀⣿⣰⢀⣠⠴⠋⠀
+          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣙⣳⣿⣿⣿⣿⣅⣀⡀⠀
+          ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢠⣄⣤⣄⣠⣶⣿⡭⣙⣷⣿⣿⣿⣯⡉⠉⠁
+          ⠀⠀⠀⠀⢀⣤⡶⠚⣿⣿⢡⣷⡻⣿⡺⡿⣻⣄⠀⣰⠟⢹⡟⣿⠀⠉⠀⠀
+          ⠀⠀⢀⡴⠛⠙⣶⣾⣿⣿⡘⢿⣿⣷⣯⣟⣛⡟⠰⠁⠀⢸⡇⠘⡆⠀⠀⠀
+          ⠀⢠⠏⠀⠀⣰⣿⣿⣿⣿⣿⣶⣍⣛⠻⠿⠟⣼⡆⠀⠀⢸⠃⠀⠀⠀⠀⠀
+          ⠀⣿⣤⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠘⠂⠀⠀⠀⠀⠀
+          ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀
+          ⠘⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀
+          ⠀⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+          ⠀⠀⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀
+          ⠀⠀⠀⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+          ⠀⠀⠀⠀⠀⠀⠉⠙⠛⠛⠛⠛⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+          ]],
           -- stylua: ignore
           ---@type snacks.dashboard.Item[]
           keys = {

@@ -2,9 +2,6 @@
 
 return {
   {
-    -- Plugin: goto-preview
-    -- URL: https://github.com/rmagatti/goto-preview
-    -- Description: Provides preview functionality for definitions, declarations, implementations, type definitions, and references.
     "rmagatti/goto-preview",
     event = "BufEnter", -- Load the plugin when a buffer is entered
     config = true, -- Enable default configuration
@@ -48,9 +45,6 @@ return {
     },
   },
   {
-    -- Plugin: mini.hipatterns
-    -- URL: https://github.com/nvim-mini/mini.hipatterns
-    -- Description: Provides highlighter patterns for various text patterns.
     "nvim-mini/mini.hipatterns",
     event = "BufReadPre", -- Load the plugin before reading a buffer
     opts = {
@@ -69,9 +63,6 @@ return {
     },
   },
   {
-    -- Plugin: git.nvim
-    -- URL: https://github.com/dinhhuy258/git.nvim
-    -- Description: Provides Git integration for Neovim.
     "dinhhuy258/git.nvim",
     event = "BufReadPre", -- Load the plugin before reading a buffer
     opts = {

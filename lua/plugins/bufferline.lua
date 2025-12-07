@@ -1,9 +1,9 @@
 return {
-    'akinsho/bufferline.nvim',
-    version = "*",
-    lazy = true,
-    event = { "BufReadPost", "BufNewFile" },
-    dependencies = 'nvim-tree/nvim-web-devicons',
+  "akinsho/bufferline.nvim",
+  version = "*",
+  lazy = true,
+  event = { "BufReadPost", "BufNewFile" },
+  dependencies = "nvim-tree/nvim-web-devicons",
   opts = {
     options = {
       mode = "buffers", -- también puedes usar "tabs"
@@ -20,4 +20,3 @@ return {
     { "<leader>bd", "<cmd>bdelete<CR>", desc = "Cerrar buffer actual" },
   },
 }
-

@@ -11,6 +11,7 @@ wk.add({
   { "<leader>G", group = "+Github Octo" },
   { "<leader>J", group = "+Java" },
   { "<leader>T", group = "+Tools" },
+  { "<leader>t", group = "+terminal" },
   { "<leader>Tn", group = "+NodeJs" },
   { "<leader>n", group = "+notifications" },
   { "<leader>m", group = "+multicursor" },
@@ -41,6 +42,14 @@ vim.keymap.set("n", "<leader>Gp", function()
     require("snacks").picker.gh_pr()
   end
 end, { desc = "Github Pull Requests (open)" })
+
+-- Toggle terminal
+vim.keymap.set("n", "<leader>tt", function() 
+  if pcall(require, "snacks") then
+    require("snacks").terminal()
+  end
+end, { desc = "Toggle Terminal" })
+
 vim.keymap.set("n", "<leader>GP", function() Snacks.picker.gh_pr({ state = "all" }) end, { desc = "Github Pull Requests (all)" })
 
 ----- OBSIDIAN -----

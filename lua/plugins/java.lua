@@ -1,5 +1,5 @@
 return {
-  { "mfussenegger/nvim-jdtls", ft = {"kotlin", "java"} },
+  { "mfussenegger/nvim-jdtls", ft = { "kotlin", "java" } },
   {
     "elmcgill/springboot-nvim",
     dependencies = {
@@ -10,8 +10,8 @@ return {
       local springboot_nvim = require("springboot-nvim")
       -- vim.keymap.set("n", "<leader>Jr", springboot_nvim.boot_run, { desc = "Spring Boot Run Project" })
       vim.keymap.set("n", "<leader>Jr", function()
-         vim.cmd(':TermExec cmd="mvn spring-boot:run"')
-         -- Snacks.terminal.open(nil, { "gitui", "-t", "tokyonight_moon.ron" })
+        vim.cmd(':TermExec cmd="mvn spring-boot:run"')
+        -- Snacks.terminal.open(nil, { "gitui", "-t", "tokyonight_moon.ron" })
       end, { desc = "Spring Boot Run Project" })
       vim.keymap.set("n", "<leader>Jc", springboot_nvim.generate_class, { desc = "Java Create Class" })
       vim.keymap.set("n", "<leader>Ji", springboot_nvim.generate_interface, { desc = "Java Create Interface" })
@@ -20,4 +20,3 @@ return {
     end,
   },
 }
-

@@ -12,7 +12,7 @@ return {
     {
       "<leader>Go",
       "<cmd>Octo<cr>",
-      desc = "Octo Actions"
+      desc = "Octo Actions",
     },
     {
       "<leader>Gp",
