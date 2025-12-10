@@ -5,40 +5,66 @@
 -- Add any additional keymaps here
 
 local wk = require("which-key")
+local Terminal  = require('toggleterm.terminal').Terminal
 
 -- groups custom keymaps
 wk.add({
   { "<leader>G", group = "+Github Octo" },
-  { "<leader>J", group = "+Java" },
   { "<leader>T", group = "+Tools" },
   { "<leader>t", group = "+terminal" },
-  { "<leader>Tn", group = "+NodeJs" },
+  { "<leader>Tn", group = "+Node" },
+  { "<leader>Tj", group = "+Java" },
   { "<leader>n", group = "+notifications" },
   { "<leader>m", group = "+multicursor" },
-  {
-    "<leader>Tnn",
-    function()
-      vim.cmd(':TermExec cmd="npm run start:dev"')
-    end,
-    desc = "NestJS Run App",
-    mode = "n",
-  },
-  {
-    "<leader>Tnd",
-    function()
-      vim.cmd(':TermExec cmd="npm run start:dev -- --inspect-brk"')
-    end,
-    desc = "NestJS Run Debug App",
-    mode = "n",
-  },
 })
 
--- vim.keymap.set({"n"},"<leader>ma","<Plug>(VM-Select-All)<Tab>", { desc="Select All" })
--- vim.keymap.set({"n"},"<leader>mr","<Plug>(VM-Start-Regex-Search)", { desc="Start Regex Search"})
--- vim.keymap.set({"n"},"<leader>mp","<Plug>(VM-Add-Cursor-At-Pos)", { desc="Add Cursor At Pos" })
--- vim.keymap.set({"n"},"<leader>mt","<Plug>(VM-Toggle-Mappings)", { desc="Toggle Mapping" })
--- vim.keymap.set({"n"},"<C-Down>","<Plug>(VM-Select-Cursor-Down)", { desc="Select Cursor Down" })
--- vim.keymap.set({"n"},"<C-Up>","<Plug>(VM-Select-Cursor-Up)", { desc="Select Cursor Up" })
+-- nest
+local nestApp = Terminal:new({
+  cmd = "npm run start:dev",
+  direction = "horizontal",
+  float_opts = {
+    border = "double",
+  },
+  -- function to run on opening the terminal
+  on_open = function(term)
+    vim.cmd("startinsert!")
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+    vim.cmd("startinsert!")
+  end,
+})
+
+function _nest_toggle()
+  nestApp:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>Tnn", "<cmd>lua _nest_toggle()<CR>", {noremap = true, silent = true, desc="Nest Run App"})
+
+-- java
+local javaApp = Terminal:new({
+  cmd = "mvn spring-boot:run",
+  direction = "horizontal",
+  float_opts = {
+    border = "double",
+  },
+  -- function to run on opening the terminal
+  on_open = function(term)
+    vim.cmd("startinsert!")
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+  end,
+  -- function to run on closing the terminal
+  on_close = function(term)
+    vim.cmd("startinsert!")
+  end,
+})
+
+function _java_toggle()
+  javaApp:toggle()
+end
+
+vim.api.nvim_set_keymap("n", "<leader>Tjn", "<cmd>lua _java_toggle()<CR>", {noremap = true, silent = true, desc="Java SpringBoot Run App"})
 
 -- Screen Keys
 vim.keymap.set({ "n" }, "<leader>uk", "<cmd>Screenkey<CR>")
