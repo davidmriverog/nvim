@@ -33,6 +33,13 @@ wk.add({
   },
 })
 
+-- vim.keymap.set({"n"},"<leader>ma","<Plug>(VM-Select-All)<Tab>", { desc="Select All" })
+-- vim.keymap.set({"n"},"<leader>mr","<Plug>(VM-Start-Regex-Search)", { desc="Start Regex Search"})
+-- vim.keymap.set({"n"},"<leader>mp","<Plug>(VM-Add-Cursor-At-Pos)", { desc="Add Cursor At Pos" })
+-- vim.keymap.set({"n"},"<leader>mt","<Plug>(VM-Toggle-Mappings)", { desc="Toggle Mapping" })
+-- vim.keymap.set({"n"},"<C-Down>","<Plug>(VM-Select-Cursor-Down)", { desc="Select Cursor Down" })
+-- vim.keymap.set({"n"},"<C-Up>","<Plug>(VM-Select-Cursor-Up)", { desc="Select Cursor Up" })
+
 -- Screen Keys
 vim.keymap.set({ "n" }, "<leader>uk", "<cmd>Screenkey<CR>")
 
@@ -43,12 +50,6 @@ vim.keymap.set("n", "<leader>Gp", function()
   end
 end, { desc = "Github Pull Requests (open)" })
 
--- Toggle terminal
-vim.keymap.set("n", "<leader>tt", function() 
-  if pcall(require, "snacks") then
-    require("snacks").terminal()
-  end
-end, { desc = "Toggle Terminal" })
 
 vim.keymap.set("n", "<leader>GP", function() Snacks.picker.gh_pr({ state = "all" }) end, { desc = "Github Pull Requests (all)" })
 
@@ -61,7 +62,6 @@ vim.keymap.set("n", "<leader>ol", "<cmd>ObsidianLinks<CR>", { desc = "Show Obsid
 vim.keymap.set("n", "<leader>on", "<cmd>ObsidianNew<CR>", { desc = "Create New Note" })
 vim.keymap.set("n", "<leader>os", "<cmd>ObsidianSearch<CR>", { desc = "Search Obsidian" })
 vim.keymap.set("n", "<leader>oq", "<cmd>ObsidianQuickSwitch<CR>", { desc = "Quick Switch" })
--- vim.keymap.set("n", "<leader>e", "<Cmd>Neotree<CR>")
 
 -- override keymaps
 
@@ -179,7 +179,7 @@ end, { desc = "Delete all marks" })
 function SaveFile()
   -- Check if a buffer with a file is open
   if vim.fn.empty(vim.fn.expand("%:t")) == 1 then
-    vim.notify("No file to save", vim.log.levels.WARN)
+    vim.notify("💣 No file to save", vim.log.levels.WARN)
     return
   end
 
@@ -189,7 +189,7 @@ function SaveFile()
   end)
 
   if success then
-    vim.notify(filename .. " Saved!") -- Show only the custom message if successful
+    vim.notify(filename .. " 💣 Saved!") -- Show only the custom message if successful
   else
     vim.notify("Error: " .. err, vim.log.levels.ERROR) -- Show the error message if it fails
   end

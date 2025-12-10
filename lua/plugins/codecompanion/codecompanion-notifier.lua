@@ -29,7 +29,7 @@ local function refresh_notifications(key)
       id = "cc_progress",
       title = req.adapter,
       opts = function(notif)
-        local icon = " "
+        local icon = "💣 "
         if not req.done then
           icon = spinner_frame()
         end
