@@ -13,10 +13,9 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath })
 end
 
--- Prepend the lazy.nvim path to the runtime path
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
--- Fix copy and paste in WSL (Windows Subsystem for Linux)
 vim.opt.clipboard = "unnamedplus" -- Use the system clipboard for all operations
 if vim.fn.has("wsl") == 1 then
   vim.g.clipboard = {
@@ -32,6 +31,9 @@ if vim.fn.has("wsl") == 1 then
     cache_enabled = false, -- Disable clipboard caching
   }
 end
+
+-- Prepend the lazy.nvim path to the runtime path
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 -- Setup lazy.nvim with the specified configuration
 require("lazy").setup({
@@ -49,8 +51,8 @@ require("lazy").setup({
     -- Linting plugins
     { import = "lazyvim.plugins.extras.linting.eslint" },
 
-    { import="lazyvim.plugins.extras.dap.core"},
-    
+    { import = "lazyvim.plugins.extras.dap.core" },
+
     -- Language support plugins
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
@@ -59,8 +61,8 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.nix" },
     { import = "lazyvim.plugins.extras.lang.toml" },
 
-    { import="lazyvim.plugins.extras.lang.php"},
-    { import="lazyvim.plugins.extras.lang.sql"},
+    -- { import = "lazyvim.plugins.extras.lang.php" },
+    { import = "lazyvim.plugins.extras.lang.sql" },
 
     -- Coding plugins
     { import = "lazyvim.plugins.extras.coding.mini-surround" },

@@ -18,6 +18,9 @@ wk.add({
   { "<leader>m", group = "+multicursor" },
 })
 
+vim.keymap.set({"n", "v"}, "<leader>mp", "<Plug>(VM-Add-Cursor-At-Pos)", { desc = "Add Cursor At Pos" })
+vim.keymap.set({"n"}, "<leader>mt", "<Plug>(VM-Toggle-Mappings)", { desc = "Toggle Mapping" })
+
 -- nest
 local nestApp = Terminal:new({
   cmd = "npm run start:dev",

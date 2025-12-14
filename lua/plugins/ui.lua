@@ -277,7 +277,6 @@ return {
     end,
     opts = {
       bigfile = { enabled = true },
-      notifier = {},
       image = {},
       picker = { enabled = true },
       explorer = { enabled = true, trash = false },
