@@ -13,6 +13,9 @@ if not vim.loop.fs_stat(lazypath) then
         lazypath })
 end
 
+-- Prepend the lazy.nvim path to the runtime path
+vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
@@ -31,9 +34,6 @@ if vim.fn.has("wsl") == 1 then
     cache_enabled = false, -- Disable clipboard caching
   }
 end
-
--- Prepend the lazy.nvim path to the runtime path
-vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 
 -- Setup lazy.nvim with the specified configuration
 require("lazy").setup({
@@ -57,6 +57,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.json" },
     { import = "lazyvim.plugins.extras.lang.markdown" },
     { import = "lazyvim.plugins.extras.lang.typescript" },
+    { import = "lazyvim.plugins.extras.lang.java" },
     { import = "lazyvim.plugins.extras.lang.astro" },
     { import = "lazyvim.plugins.extras.lang.nix" },
     { import = "lazyvim.plugins.extras.lang.toml" },
@@ -67,7 +68,7 @@ require("lazy").setup({
     -- Coding plugins
     { import = "lazyvim.plugins.extras.coding.mini-surround" },
     { import = "lazyvim.plugins.extras.editor.mini-diff" },
-    { import = "lazyvim.plugins.extras.coding.blink" },
+    -- { import = "lazyvim.plugins.extras.coding.blink" },
 
     -- Utility plugins
     { import = "lazyvim.plugins.extras.util.mini-hipatterns" },

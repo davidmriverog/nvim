@@ -32,6 +32,9 @@ return {
     opts = {
       inlay_hints = { enabled = false }, -- Disable inlay hints
       servers = {
+        servers = {
+          lua_ls = {},
+        },
         nil_ls = {
           -- Configuration for nil (Nix Language Server), already installed via nix
           cmd = { "nil" },
