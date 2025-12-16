@@ -5,7 +5,7 @@
 -- Add any additional keymaps here
 
 local wk = require("which-key")
-local Terminal  = require('toggleterm.terminal').Terminal
+local Terminal = require("toggleterm.terminal").Terminal
 
 -- groups custom keymaps
 wk.add({
@@ -14,12 +14,13 @@ wk.add({
   { "<leader>t", group = "+terminal" },
   { "<leader>Tn", group = "+Node" },
   { "<leader>Tj", group = "+Java" },
+  { "<leader>O", group = "+Oil" },
   { "<leader>n", group = "+notifications" },
   { "<leader>m", group = "+multicursor" },
 })
 
-vim.keymap.set({"n", "v"}, "<leader>mp", "<Plug>(VM-Add-Cursor-At-Pos)", { desc = "Add Cursor At Pos" })
-vim.keymap.set({"n"}, "<leader>mt", "<Plug>(VM-Toggle-Mappings)", { desc = "Toggle Mapping" })
+vim.keymap.set({ "n", "v" }, "<leader>mp", "<Plug>(VM-Add-Cursor-At-Pos)", { desc = "Add Cursor At Pos" })
+vim.keymap.set({ "n" }, "<leader>mt", "<Plug>(VM-Toggle-Mappings)", { desc = "Toggle Mapping" })
 
 -- nest
 local nestApp = Terminal:new({
@@ -31,7 +32,7 @@ local nestApp = Terminal:new({
   -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd("startinsert!")
-    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
   end,
   -- function to run on closing the terminal
   on_close = function(term)
@@ -43,7 +44,12 @@ function _nest_toggle()
   nestApp:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<leader>Tnn", "<cmd>lua _nest_toggle()<CR>", {noremap = true, silent = true, desc="Nest Run App"})
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>Tnn",
+  "<cmd>lua _nest_toggle()<CR>",
+  { noremap = true, silent = true, desc = "Nest Run App" }
+)
 
 -- java
 local javaApp = Terminal:new({
@@ -55,7 +61,7 @@ local javaApp = Terminal:new({
   -- function to run on opening the terminal
   on_open = function(term)
     vim.cmd("startinsert!")
-    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+    vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", { noremap = true, silent = true })
   end,
   -- function to run on closing the terminal
   on_close = function(term)
@@ -67,20 +73,26 @@ function _java_toggle()
   javaApp:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<leader>Tjn", "<cmd>lua _java_toggle()<CR>", {noremap = true, silent = true, desc="Java SpringBoot Run App"})
+vim.api.nvim_set_keymap(
+  "n",
+  "<leader>Tjn",
+  "<cmd>lua _java_toggle()<CR>",
+  { noremap = true, silent = true, desc = "Java SpringBoot Run App" }
+)
 
 -- Screen Keys
 vim.keymap.set({ "n" }, "<leader>uk", "<cmd>Screenkey<CR>")
 
 -- Github
-vim.keymap.set("n", "<leader>Gp", function() 
+vim.keymap.set("n", "<leader>Gp", function()
   if pcall(require, "snacks") then
     require("snacks").picker.gh_pr()
   end
 end, { desc = "Github Pull Requests (open)" })
 
-
-vim.keymap.set("n", "<leader>GP", function() Snacks.picker.gh_pr({ state = "all" }) end, { desc = "Github Pull Requests (all)" })
+vim.keymap.set("n", "<leader>GP", function()
+  Snacks.picker.gh_pr({ state = "all" })
+end, { desc = "Github Pull Requests (all)" })
 
 ----- OBSIDIAN -----
 vim.keymap.set("n", "<leader>oc", "<cmd>ObsidianCheck<CR>", { desc = "Obsidian Check Checkbox" })
@@ -107,7 +119,6 @@ vim.keymap.set("x", "<A-Up>", ":MoveBlock -1<CR>", opts)
 vim.keymap.set("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
 vim.keymap.set("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)
 
-
 ----- OIL -----
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 
@@ -118,7 +129,6 @@ vim.keymap.set(
   '<Esc>:%bdelete|edit #|normal`"<Return>',
   { desc = "Delete other buffers but the current one" }
 )
-
 
 -- Redefine Ctrl+s to save with the custom function
 vim.api.nvim_set_keymap("n", "<C-s>", ":lua SaveFile()<CR><esc>", { noremap = true, silent = true })
