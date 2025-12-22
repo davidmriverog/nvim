@@ -1,30 +1,16 @@
--- Oil.nvim: Edit your filesystem like a buffer
--- URL: https://github.com/stevearc/oil.nvim
-
 return {
   "stevearc/oil.nvim",
-
-  -- Load Oil when opening a directory or when using the keymap
-  lazy = false,
-
-  keys = {
-    { "<leader>O-", "<CMD>Oil<CR>", desc = "Open Oil (parent dir)" },
-    { "<leader>Oe", "<CMD>Oil --float<CR>", desc = "Open Oil (floating)" },
-  },
-
+  -- Make sure it's not lazy-loaded if you want it to replace netrw by default
+  lazy = false, 
+  -- Specify dependencies (optional but good practice)
+  dependencies = { "nvim-tree/nvim-web-devicons" }, 
+  -- Configuration for oil.nvim
   opts = {
-    -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
-    default_file_explorer = true,
-
-    -- Restore window options to previous values when leaving an oil buffer
-    restore_win_options = true,
-
-    -- Skip the confirmation popup for simple operations
-    skip_confirm_for_simple_edits = false,
-
-    -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
-    prompt_save_on_select_new_entry = true,
-
+    -- Set this to true to make oil the default file explorer for directory buffers
+    default_file_explorer = true, 
+    view_options = {
+      show_hidden = true, -- Show hidden files
+    },
     -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
     keymaps = {
       ["g?"] = "actions.show_help",
@@ -46,10 +32,29 @@ return {
       -- Quick quit
       ["q"] = "actions.close",
     },
-
     -- Set to false to disable all of the above keymaps
     use_default_keymaps = false,
-
+    view_options = {
+      -- Show files and directories that start with "." by default
+      show_hidden = true,
+      -- This function defines what is considered a "hidden" file
+      is_hidden_file = function(name, bufnr)
+        return vim.startswith(name, ".")
+      end,
+      -- This function defines what will never be shown, even when `show_hidden` is set
+      is_always_hidden = function(name, bufnr)
+        return name == ".." or name == ".git"
+      end,
+      -- Natural sort order for files and directories
+      natural_order = true,
+      case_insensitive = false,
+      sort = {
+        -- sort order can be "asc" or "desc"
+        -- see :help oil-columns to see which columns are sortable
+        { "type", "asc" },
+        { "name", "asc" },
+      },
+    },
     view_options = {
       -- Show files and directories that start with "." by default
       show_hidden = true,
@@ -133,46 +138,12 @@ return {
       border = "rounded",
     },
   },
-
-  dependencies = {
-    "nvim-tree/nvim-web-devicons",
+  -- Keymaps for opening oil
+  keys = {
+    -- { "<leader>e", "<cmd>Oil<cr>", desc = "Open File Explorer" },
+    { "<leader>fe", "<cmd>Oil<cr>", desc = "Open File Explorer (alt)" },
+    { "<leader>f.", "<cmd>Oil<cr>", desc = "Open Current Dir" },
+    -- Example for a floating window (optional)
+    { "<leader>fo", "<cmd>Oil --float<cr>", desc = "Open Floating File Explorer" }, 
   },
-
-  config = function(_, opts)
-    require("oil").setup(opts)
-
-    -- Custom autocmds for Oil
-    vim.api.nvim_create_autocmd("FileType", {
-      pattern = "oil",
-      callback = function()
-        -- Set local options for oil buffers
-        vim.opt_local.colorcolumn = ""
-        vim.opt_local.signcolumn = "no"
-
-        -- Auto-save when leaving oil buffer with changes
-        vim.api.nvim_create_autocmd("BufLeave", {
-          buffer = 0,
-          callback = function()
-            if vim.bo.modified then
-              vim.cmd("silent! write")
-            end
-          end,
-        })
-      end,
-    })
-
-    -- Global keymap to open Oil in current buffer's directory
-    vim.keymap.set("n", "<leader>-", function()
-      local oil = require("oil")
-      local current_buf = vim.api.nvim_get_current_buf()
-      local current_file = vim.api.nvim_buf_get_name(current_buf)
-
-      if current_file and current_file ~= "" then
-        local dir = vim.fn.fnamemodify(current_file, ":h")
-        oil.open(dir)
-      else
-        oil.open()
-      end
-    end, { desc = "Open Oil in current file's directory" })
-  end,
 }
