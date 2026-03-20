@@ -16,7 +16,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-moon",
+      colorscheme = "gruvbox",
     },
   },
 
@@ -95,11 +95,27 @@ return {
       servers = {
         -- tsserver will be automatically installed with mason and loaded with lspconfig
         tsserver = {},
+        eslint = {
+          settings = {
+            workingDirectories = { mode = "auto" },
+          },
+        },
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts:_.lspconfig.options):boolean?>
       setup = {
+        eslint = function()
+          local function on_attach(client, bufnr)
+            if client.name == "eslint" then
+              vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = bufnr,
+                command = "EslintFixAll",
+              })
+            end
+          end
+          require("lazyvim.util").lsp.on_attach(on_attach)
+        end,
         -- example to setup with typescript.nvim
         tsserver = function(_, opts)
           require("typescript").setup({ server = opts })
@@ -111,9 +127,32 @@ return {
     },
   },
 
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = { "saghen/blink.cmp" },
+
+    -- example using `opts` for defining servers
+    opts = {
+      servers = {
+        lua_ls = {},
+      },
+    },
+    config = function(_, opts)
+      local lspconfig = require("lspconfig")
+      for server, config in pairs(opts.servers) do
+        -- passing config.capabilities to blink.cmp merges with the capabilities in your
+        -- `opts[server].capabilities, if you've defined it
+        config.capabilities = require("blink.cmp").get_lsp_capabilities(config.capabilities)
+        lspconfig[server].setup(config)
+      end
+    end,
+  },
+
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:
   { import = "lazyvim.plugins.extras.lang.typescript" },
+  { import = "lazyvim.plugins.extras.formatting.biome" },
+  { import = "lazyvim.plugins.extras.formatting.prettier" },
 
   -- add more treesitter parsers
   {
@@ -134,8 +173,6 @@ return {
         "typescript",
         "vim",
         "yaml",
-        "java",
-        "php",
       },
     },
   },
@@ -150,7 +187,6 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "tsx",
         "typescript",
-        "ts_utils",
       })
     end,
   },
@@ -172,45 +208,9 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
-    requires = { "nvim-tree/nvim-web-devicons", opt = true }, -- Optional dependency for icons
     opts = function()
       return {
         --[[add your custom lualine config here]]
-        options = {
-          theme = "auto", -- Set the theme for lualine
-          icons_enabled = true, -- Enable icons in the statusline
-        },
-        sections = {
-          lualine_a = {
-            {
-              "mode", -- Display the current mode
-              icon = "💣", -- Set the icon for the mode
-            },
-          },
-        },
-        extensions = {
-          "quickfix",
-          {
-            filetypes = { "oil" },
-            sections = {
-              lualine_a = {
-                mode,
-              },
-              lualine_b = {
-                function()
-                  local ok, oil = pcall(require, "oil")
-                  if not ok then
-                    return ""
-                  end
-
-                  ---@diagnostic disable-next-line: param-type-mismatch
-                  local path = vim.fn.fnamemodify(oil.get_current_dir(), ":~")
-                  return path .. " %m"
-                end,
-              },
-            },
-          },
-        },
       }
     end,
   },

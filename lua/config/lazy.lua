@@ -14,46 +14,11 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
-vim.opt.clipboard = "unnamedplus" -- Use the system clipboard for all operations
-if vim.fn.has("wsl") == 1 then
-  vim.g.clipboard = {
-    name = "win32yank", -- Use win32yank for clipboard operations
-    copy = {
-      ["+"] = "win32yank.exe -i --crlf", -- Command to copy to the system clipboard
-      ["*"] = "win32yank.exe -i --crlf", -- Command to copy to the primary clipboard
-    },
-    paste = {
-      ["+"] = "win32yank.exe -o --lf", -- Command to paste from the system clipboard
-      ["*"] = "win32yank.exe -o --lf", -- Command to paste from the primary clipboard
-    },
-    cache_enabled = false, -- Disable clipboard caching
-  }
-end
-
 require("lazy").setup({
   spec = {
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    -- Formatting plugins
-    { import = "lazyvim.plugins.extras.lang.typescript" },
-    { import = "lazyvim.plugins.extras.formatting.biome" },
-    { import = "lazyvim.plugins.extras.formatting.prettier" },
-
-    -- Linting plugins
-    { import = "lazyvim.plugins.extras.linting.eslint" },
-
-    { import = "lazyvim.plugins.extras.dap.core" },
     -- import/override with your plugins
-    -- Coding plugins
-    { import = "lazyvim.plugins.extras.coding.mini-surround" },
-    { import = "lazyvim.plugins.extras.editor.mini-diff" },
-    -- { import = "lazyvim.plugins.extras.coding.blink" },
-
-    -- Utility plugins
-    { import = "lazyvim.plugins.extras.util.mini-hipatterns" },
     { import = "plugins" },
   },
   defaults = {
