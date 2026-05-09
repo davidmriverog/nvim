@@ -173,6 +173,7 @@ return {
         "typescript",
         "vim",
         "yaml",
+        "angular",
       },
     },
   },
