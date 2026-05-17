@@ -147,6 +147,59 @@ return {
       end
     end,
   },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      inlay_hints = { enabled = false },
+      servers = {
+        angularls = {
+          -- Ensure Mason installs the correct version (v20+)
+          -- You can pin it: `mason = { ensure_installed = { "angular-language-server@20.3.0" } }` if needed
+          cmd = {
+            "ngserver",
+            "--stdio",
+            "--tsProbeLocations",
+            "", -- will be filled dynamically
+            "--ngProbeLocations",
+            "", -- will be filled dynamically
+          },
+          on_new_config = function(new_config, root_dir)
+            local project_root = root_dir or vim.fn.getcwd()
+            local node_modules = project_root .. "/node_modules"
+
+            new_config.cmd[4] = node_modules
+            new_config.cmd[6] = node_modules
+
+            -- Optional: Enable Ivy if your project uses it
+            -- new_config.init_options = { experimental = { ivy = true } }
+          end,
+
+          -- Better root detection (especially for monorepos)
+          root_dir = function(fname)
+            return require("lspconfig.util").root_pattern("angular.json", "package.json")(fname)
+          end,
+
+          -- Filetypes to activate on
+          filetypes = { "typescript", "html", "typescriptreact", "typescript.tsx" },
+        },
+      },
+      setup = {
+        angularls = function()
+          return true
+        end,
+      },
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        emmet_language_server = {
+          filetypes = { "html", "css", "javascriptreact", "typescriptreact", "sass", "scss", "less" },
+        },
+      },
+    },
+  },
 
   -- for typescript, LazyVim also includes extra specs to properly setup lspconfig,
   -- treesitter, mason and typescript.nvim. So instead of the above, you can use:

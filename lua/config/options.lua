@@ -8,3 +8,5 @@ vim.opt.relativenumber = false
 vim.g.lazyvim_picker = "snacks"
 vim.g.autoformat = true
 vim.g.lazyvim_prettier_needs_config = true
+
+vim.g.neovide_scale_factor = 1.0

@@ -17,3 +17,15 @@ vim.keymap.set("x", "<A-Down>", ":MoveBlock 1<CR>", opts)
 vim.keymap.set("x", "<A-Up>", ":MoveBlock -1<CR>", opts)
 vim.keymap.set("v", "<A-Left>", ":MoveHBlock -1<CR>", opts)
 vim.keymap.set("v", "<A-Right>", ":MoveHBlock 1<CR>", opts)
+
+-- Keybindings to zoom in/out
+vim.keymap.set('n', '<C-=>', function()
+  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor + 0.1
+end)
+vim.keymap.set('n', '<C-->', function()
+  vim.g.neovide_scale_factor = vim.g.neovide_scale_factor - 0.1
+end)
+-- Reset zoom
+vim.keymap.set('n', '<C-0>', function()
+  vim.g.neovide_scale_factor = 1.0
+end)
