@@ -10,5 +10,3 @@ vim.g.autoformat = true
 vim.g.lazyvim_prettier_needs_config = true
 
 vim.g.neovide_scale_factor = 1.0
-
-vim.lsp.inlay_hint.enable(false)
