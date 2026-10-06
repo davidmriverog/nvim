@@ -1,25 +1,26 @@
 return {
-  "sudo-tee/opencode.nvim",
+  "nickjvandyke/opencode.nvim",
+  -- Defaults to "main", supporting OpenCode v2.
+  -- Uncomment to pull the latest stable release, supporting OpenCode v1.
+  -- version = "*",
   config = function()
-    require("opencode").setup({})
-  end,
-  dependencies = {
-    {
-      "MeanderingProgrammer/render-markdown.nvim",
-      opts = {
-        anti_conceal = { enabled = false },
-        file_types = { "markdown", "opencode_output" },
-      },
-      ft = { "markdown", "Avante", "copilot-chat", "opencode_output" },
-    },
-    -- Optional, for file mentions and commands completion, pick only one
-    "saghen/blink.cmp",
-    -- 'hrsh7th/nvim-cmp',
+    ---@type opencode.Opts
+    vim.g.opencode_opts = {
+      -- Your configuration, if any; goto definition on the type for details
+    }
 
-    -- Optional, for file mentions picker, pick only one
-    "folke/snacks.nvim",
-    -- 'nvim-telescope/telescope.nvim',
-    -- 'ibhagwan/fzf-lua',
-    -- 'nvim_mini/mini.nvim',
-  },
+    -- Recommended/example keymaps
+    vim.keymap.set({ "n", "x" }, "<C-a>", function()
+      require("opencode").ask("@this: ")
+    end, { desc = "Ask OpenCode…" })
+    vim.keymap.set({ "n", "x" }, "<C-x>", function()
+      require("opencode").select()
+    end, { desc = "Select OpenCode…" })
+    vim.keymap.set({ "n", "x" }, "go", function()
+      return require("opencode").operator("@this")
+    end, { desc = "Send range to OpenCode", expr = true })
+    vim.keymap.set({ "n" }, "goo", function()
+      return require("opencode").operator("@this") .. "_"
+    end, { desc = "Send line to OpenCode", expr = true })
+  end,
 }
